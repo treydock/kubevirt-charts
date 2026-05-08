@@ -46,6 +46,7 @@ spec:
         - -c
         - |
           set -ex
+          kubectl label namespace {{ .Release.Namespace }} kubevirt.io= --overwrite
           kubectl label namespace {{ .Release.Namespace }} pod-security.kubernetes.io/enforce=privileged --overwrite
         {{- with .Values.hooks.securityContext }}
         securityContext:
