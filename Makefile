@@ -18,6 +18,11 @@ verify-helm-docs: helm-docs
 download-kubevirt-manifest:
 	@curl -s -L -O https://github.com/kubevirt/kubevirt/releases/download/$(KUBEVIRT_VERSION)/kubevirt-operator.yaml
 
+update-helm-crds: download-kubevirt-manifest
+	@cat kubevirt-operator.yaml | yq 'select(.kind == "CustomResourceDefinition")' \
+		| yamlfmt -in -formatter indentless_arrays=true,max_line_length=80 > \
+		charts/kubevirt-crd/templates/crd.yaml
+
 verify-helm-crds: download-kubevirt-manifest
 	@diff -uw \
 		<( helm template charts/kubevirt-crd | yq 'select(.kind == "CustomResourceDefinition")' | grep -v -E "^#" ) \
@@ -27,5 +32,6 @@ verify-helm-crds: download-kubevirt-manifest
 	helm-docs \
 	verify-helm-docs \
 	download-kubevirt-manifest \
+	update-helm-crds \
 	verify-helm-crds \
 	$(NULL)
