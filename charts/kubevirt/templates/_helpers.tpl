@@ -57,3 +57,18 @@ Image tag helper
 {{- $tag := default .Chart.AppVersion .Values.operator.image.tag }}
 {{- printf "%s/%s:%s" .Values.operator.image.registry .Values.operator.image.repository $tag }}
 {{- end }}
+
+{{/* Hook SA helper name */}}
+{{- define "kubevirt.hook.serviceaccount" -}}
+{{ printf "%s-hook" (include "kubevirt.fullname" .) }}
+{{- end }}
+
+{{/* Hook RBAC helper name */}}
+{{- define "kubevirt.hook.rbac.hook" -}}
+{{ printf "%s-hook" (include "kubevirt.fullname" .) }}
+{{- end }}
+
+{{/* Hook RBAC cluster helper name */}}
+{{- define "kubevirt.hook.rbac.namespace" -}}
+{{ printf "%s-namespace" (include "kubevirt.fullname" .) }}
+{{- end }}

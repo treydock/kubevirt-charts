@@ -9,7 +9,7 @@ metadata:
     "helm.sh/hook-delete-policy": hook-succeeded
   labels:
     {{- include "kubevirt.labels" . | nindent 4 }}
-  name: {{ printf "%s-namespace" (include "kubevirt.fullname" .) }}
+  name: {{ include "kubevirt.hook.rbac.namespace" . }}
 rules:
   - apiGroups:
       - ""
@@ -30,14 +30,14 @@ metadata:
     "helm.sh/hook-delete-policy": hook-succeeded
   labels:
     {{- include "kubevirt.labels" . | nindent 4 }}
-  name: {{ printf "%s-namespace" (include "kubevirt.fullname" .) }}
+  name: {{ include "kubevirt.hook.rbac.namespace" . }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: {{ printf "%s-namespace" (include "kubevirt.fullname" .) }}
+  name: {{ include "kubevirt.hook.rbac.namespace" . }}
 subjects:
 - kind: ServiceAccount
-  name: {{ printf "%s-hook" (include "kubevirt.fullname" .) }}
+  name: {{ include "kubevirt.hook.serviceaccount" . }}
   namespace: {{ .Release.Namespace }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -49,7 +49,7 @@ metadata:
     "helm.sh/hook-delete-policy": hook-succeeded
   labels:
     {{- include "kubevirt.labels" . | nindent 4 }}
-  name: {{ printf "%s-hook" (include "kubevirt.fullname" .) }}
+  name: {{ include "kubevirt.hook.rbac.hook" . }}
   namespace: {{ .Release.Namespace }}
 rules:
   - apiGroups:
@@ -78,14 +78,14 @@ metadata:
     "helm.sh/hook-delete-policy": hook-succeeded
   labels:
     {{- include "kubevirt.labels" . | nindent 4 }}
-  name: {{ printf "%s-hook" (include "kubevirt.fullname" .) }}
+  name: {{ include "kubevirt.hook.rbac.hook" . }}
   namespace: {{ .Release.Namespace }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: {{ printf "%s-wait" (include "kubevirt.fullname" .) }}
+  name: {{ include "kubevirt.hook.rbac.hook" . }}
 subjects:
 - kind: ServiceAccount
-  name: {{ printf "%s-hook" (include "kubevirt.fullname" .) }}
+  name: {{ include "kubevirt.hook.serviceaccount" . }}
   namespace: {{ .Release.Namespace }}
 {{- end }}
