@@ -58,6 +58,11 @@ Image tag helper
 {{- printf "%s/%s:%s" .Values.operator.image.registry .Values.operator.image.repository $tag }}
 {{- end }}
 
+{{/* SA helper name */}}
+{{- define "kubevirt.operator.name" -}}
+kubevirt-operator
+{{- end }}
+
 {{/* Hook SA helper name */}}
 {{- define "kubevirt.hook.serviceaccount" -}}
 {{ printf "%s-hook" (include "kubevirt.fullname" .) }}

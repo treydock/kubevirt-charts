@@ -27,7 +27,7 @@ metadata:
   labels:
     kubevirt.io: ""
     {{- include "kubevirt.labels" . | nindent 4 }}
-  name: {{ include "kubevirt.name" . }}
+  name: {{ include "kubevirt.operator.name" . }}
 rules:
 - apiGroups:
   - kubevirt.io
