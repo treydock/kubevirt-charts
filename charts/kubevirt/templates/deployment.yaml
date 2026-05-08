@@ -4,7 +4,7 @@ metadata:
   labels:
     kubevirt.io: virt-operator
     {{- include "kubevirt.labels" . | nindent 4 }}
-  name: {{ include "kubevirt.operator.name" . }}
+  name: virt-operator
   namespace: {{ .Release.Namespace }}
 spec:
   replicas: {{ .Values.operator.replicas }}
@@ -19,10 +19,10 @@ spec:
         openshift.io/required-scc: restricted-v2
       labels:
         kubevirt.io: virt-operator
-        name: {{ include "kubevirt.name" . }}
+        name: virt-operator
         np.kubevirt.io/allow-access-cluster-services: "true"
         prometheus.kubevirt.io: "true"
-      name: {{ include "kubevirt.name" . }}
+      name: virt-operator
     spec:
       affinity:
         nodeAffinity:
@@ -45,7 +45,7 @@ spec:
                 - key: kubevirt.io
                   operator: In
                   values:
-                  - {{ include "kubevirt.name" . }}
+                  - virt-operator
               topologyKey: kubernetes.io/hostname
             weight: 1
       containers:
@@ -73,7 +73,7 @@ spec:
             scheme: HTTPS
           initialDelaySeconds: 5
           timeoutSeconds: 10
-        name: {{ include "kubevirt.name" . }}
+        name: virt-operator
         ports:
         - containerPort: 8443
           name: metrics
