@@ -1,0 +1,118 @@
+
+operator:
+  # -- Operator replicas
+  replicas: 2
+  image:
+    # -- Operator image registry
+    registry: quay.io
+    # -- Operator image repository
+    repository: kubevirt/virt-operator
+    # -- Operator image tag
+    # @default -- Chart's appVersion
+    tag: ""
+    # -- Operator image pull policy
+    pullPolicy: IfNotPresent
+  # -- image pull secret configs for existing image pull secrets
+  imagePullSecrets: []
+  # -- Arguments to pass to kubevirt-operator
+  args:
+    - --port
+    - "8443"
+    - -v
+    - "2"
+  # -- The Operator node selector
+  nodeSelector:
+    kubernetes.io/os: linux
+  # -- Operator pod security context
+  podSecurityContext:
+    runAsNonRoot: true
+    seccompProfile:
+      type: RuntimeDefault
+  # -- Operator container resources
+  resources:
+    requests:
+      cpu: 10m
+      memory: 450Mi
+  # -- Operator container security context
+  securityContext:
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+      - ALL
+    seccompProfile:
+      type: RuntimeDefault
+
+kubevirt:
+  # -- Name of the KubeVirt resource
+  name: kubevirt
+
+  # -- Annotations to be added to the KubeVirt CR
+  annotations: {}
+
+  # -- Certificate rotate strategy configuration
+  certificateRotateStrategy: {}
+
+  configuration:
+    developerConfiguration:
+      # -- Developer configuration feature gates
+      featureGates: []
+    # -- Configuration image pull policy
+    imagePullPolicy: IfNotPresent
+
+  # -- Image pull policy
+  imagePullPolicy: IfNotPresent
+
+  # -- Customize infra
+  infra: {}
+
+  # -- Customize workloads
+  workloads: {}
+
+  # -- Customize components
+  customizeComponents: {}
+
+  # -- Workload update strategy
+  workloadUpdateStrategy: {}
+
+hooks:
+  # -- Enable post-install hooks
+  enable: true
+  image:
+    # -- hook image registry
+    registry: docker.io
+    # -- hook image repository
+    repository: portainer/kubectl-shell
+    # -- hook image tag
+    tag: '2.39.0'
+    # -- hook image pull policy
+    pullPolicy: IfNotPresent
+  # -- Time to wait for kubevirt CR to be ready
+  timeout: 5m
+  # -- imagePullSecrets to use for existing secrets
+  imagePullSecrets: []
+  # -- Job labels to add to the hook job
+  jobLabels: {}
+  # -- Pod labels to add to the hook pod
+  podLabels: {}
+  # -- Pod annotations to add to the hook pod
+  podAnnotations: {}
+  # -- Pod-level security settings
+  # @default -- unprivileged
+  podSecurityContext:
+    runAsNonRoot: true
+    seccompProfile:
+      type: RuntimeDefault
+  # -- Security context for the hook pod
+  # @default -- unprivileged
+  securityContext:
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+      - ALL
+    seccompProfile:
+      type: RuntimeDefault
+    privileged: false
+    readOnlyRootFilesystem: true
+    runAsNonRoot: true
+    runAsUser: 65534
+    runAsGroup: 65534

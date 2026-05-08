@@ -1,0 +1,54 @@
+{{- if and .Values.hooks.enable }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    "helm.sh/hook": pre-delete
+    "helm.sh/hook-weight": "3"
+    "helm.sh/hook-delete-policy": hook-succeeded
+  labels:
+    {{- include "kubevirt.labels" . | nindent 4 }}
+    {{- with .Values.hooks.jobLabels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  name: {{ printf "%s-delete" (include "kubevirt.fullname" .) }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  template:
+    metadata:
+      {{- with .Values.hooks.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+      {{- with .Values.hooks.podLabels }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+        {{- include "kubevirt.selectorLabels" . | nindent 8 }}
+      name: {{ printf "%s-delete" (include "kubevirt.fullname" .) }}
+    spec:
+      {{- with .Values.hooks.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      restartPolicy: Never
+      serviceAccountName: {{ printf "%s-hook" (include "kubevirt.fullname" .) }}
+      {{- with .Values.hooks.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+      - name: delete-cr
+        image: "{{ .Values.hooks.image.registry }}/{{ .Values.hooks.image.repository }}:{{ .Values.hooks.image.tag }}"
+        imagePullPolicy: {{ .Values.hooks.image.pullPolicy }}
+        command:
+        - /bin/bash
+        - -c
+        - |
+          set -ex
+          kubectl -n {{ .Release.Namespace }} delete kubevirt {{ .Values.kubevirt.name }}
+        {{- with .Values.hooks.securityContext }}
+        securityContext:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+{{- end }}
