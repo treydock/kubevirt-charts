@@ -1,0 +1,30 @@
+operator:
+  podSecurityContext:
+    runAsUser: 65534
+    runAsGroup: 65534
+    fsGroup: 65534
+  resources:
+    limits:
+      cpu: 2
+      memory: 1Gi
+kubevirt:
+  customizeComponents:
+    patches:
+      - patch: '{"metadata":{"annotations":{"prometheus.io/probe_skip":"true"}}}'
+        type: strategic
+        resourceName: kubevirt-prometheus-metrics
+        resourceType: Service
+      - patch: '{"metadata":{"annotations":{"prometheus.io/probe_skip":"true"}}}'
+        type: strategic
+        resourceName: virt-exportproxy
+        resourceType: Service
+  infra:
+    nodePlacement:
+      nodeSelector:
+        node-role.kubernetes.io/infrastructure: ''
+  workloads:
+    nodePlacement:
+      nodeSelector:
+        node-role.kubernetes.io/virt: ''
+  monitorNamespace: prometheus-operator
+  monitorAccount: prometheus-operator
