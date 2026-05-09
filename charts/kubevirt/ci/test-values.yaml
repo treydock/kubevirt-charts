@@ -28,3 +28,5 @@ kubevirt:
         node-role.kubernetes.io/virt: ''
   monitorNamespace: prometheus-operator
   monitorAccount: prometheus-operator
+  extraConfig:
+    imageTag: '{{ .Chart.AppVersion }}'
