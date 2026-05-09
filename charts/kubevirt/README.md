@@ -41,11 +41,14 @@ helm upgrade kubevirt kubevirt/kubevirt --install -n kubevirt
 | kubevirt.certificateRotateStrategy | object | `{}` | Certificate rotate strategy configuration |
 | kubevirt.configuration.developerConfiguration.featureGates | list | `[]` | Developer configuration feature gates |
 | kubevirt.configuration.imagePullPolicy | string | `"IfNotPresent"` | Configuration image pull policy |
+| kubevirt.customizeComponents | object | `{}` | Customize components |
 | kubevirt.imagePullPolicy | string | `"IfNotPresent"` | Image pull policy |
 | kubevirt.infra | object | `{}` | Customize infra |
 | kubevirt.workloads | object | `{}` | Customize workloads |
-| kubevirt.customizeComponents | object | `{}` | Customize components |
 | kubevirt.workloadUpdateStrategy | object | `{}` | Workload update strategy |
+| kubevirt.monitorNamespace | string | `""` | The namespace that prometheus-operator runs in |
+| kubevirt.monitorAccount | string | `""` | The serviceAccount that prometheus-operator runs with |
+| kubevirt.serviceMonitorNamespace | string | `""` | The namespace that the serviceMonitor runs in |
 | hooks.enable | bool | `true` | Enable post-install hooks |
 | hooks.image.registry | string | `"docker.io"` | hook image registry |
 | hooks.image.repository | string | `"portainer/kubectl-shell"` | hook image repository |

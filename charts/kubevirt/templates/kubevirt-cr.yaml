@@ -26,3 +26,12 @@ spec:
   workloads: {{ toYaml . | nindent 4 }}
   {{- end }}
   workloadUpdateStrategy: {{- toYaml .Values.kubevirt.workloadUpdateStrategy | nindent 4 }}
+  {{- if .Values.kubevirt.monitorNamespace }}
+  monitorNamespace: {{ .Values.kubevirt.monitorNamespace }}
+  {{- end }}
+  {{- if .Values.kubevirt.monitorAccount }}
+  monitorAccount: {{ .Values.kubevirt.monitorAccount }}
+  {{- end }}
+  {{- if .Values.kubevirt.serviceMonitorNamespace }}
+  serviceMonitorNamespace: {{ .Values.kubevirt.serviceMonitorNamespace }}
+  {{- end }}

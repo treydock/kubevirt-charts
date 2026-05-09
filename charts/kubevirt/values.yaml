@@ -59,6 +59,9 @@ kubevirt:
     # -- Configuration image pull policy
     imagePullPolicy: IfNotPresent
 
+  # -- Customize components
+  customizeComponents: {}
+
   # -- Image pull policy
   imagePullPolicy: IfNotPresent
 
@@ -68,11 +71,15 @@ kubevirt:
   # -- Customize workloads
   workloads: {}
 
-  # -- Customize components
-  customizeComponents: {}
-
   # -- Workload update strategy
   workloadUpdateStrategy: {}
+
+  # -- The namespace that prometheus-operator runs in
+  monitorNamespace: ""
+  # -- The serviceAccount that prometheus-operator runs with
+  monitorAccount: ""
+  # -- The namespace that the serviceMonitor runs in
+  serviceMonitorNamespace: ""
 
 hooks:
   # -- Enable post-install hooks
