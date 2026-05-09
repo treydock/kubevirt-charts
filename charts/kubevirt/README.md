@@ -49,6 +49,7 @@ helm upgrade kubevirt kubevirt/kubevirt --install -n kubevirt
 | kubevirt.monitorNamespace | string | `""` | The namespace that prometheus-operator runs in |
 | kubevirt.monitorAccount | string | `""` | The serviceAccount that prometheus-operator runs with |
 | kubevirt.serviceMonitorNamespace | string | `""` | The namespace that the serviceMonitor runs in |
+| kubevirt.extraConfig | object | `{}` | Extra KubeVirt CR configurations |
 | hooks.enable | bool | `true` | Enable post-install hooks |
 | hooks.image.registry | string | `"docker.io"` | hook image registry |
 | hooks.image.repository | string | `"portainer/kubectl-shell"` | hook image repository |

@@ -81,6 +81,9 @@ kubevirt:
   # -- The namespace that the serviceMonitor runs in
   serviceMonitorNamespace: ""
 
+  # -- Extra KubeVirt CR configurations
+  extraConfig: {}
+
 hooks:
   # -- Enable post-install hooks
   enable: true

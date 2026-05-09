@@ -35,3 +35,6 @@ spec:
   {{- if .Values.kubevirt.serviceMonitorNamespace }}
   serviceMonitorNamespace: {{ .Values.kubevirt.serviceMonitorNamespace }}
   {{- end }}
+  {{- with .Values.kubevirt.extraConfig }}
+    {{- toYaml . | nindent 2 }}
+  {{- end }}
