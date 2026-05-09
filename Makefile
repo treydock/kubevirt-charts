@@ -28,10 +28,21 @@ verify-helm-crds: download-kubevirt-manifest
 		<( helm template charts/kubevirt-crd | yq 'select(.kind == "CustomResourceDefinition")' | grep -v -E "^#" ) \
 		<( cat kubevirt-operator.yaml | yq 'select(.kind == "CustomResourceDefinition")' )
 
+verify-helm-roles: download-kubevirt-manifest
+	@echo 'Verify ClusterRole resources'
+	@diff -uw \
+		<( helm template charts/kubevirt --no-hooks | yq 'select(.kind == "ClusterRole")' | grep -v -E "^#" | grep -v -E "(kubernetes.io|helm.sh)" ) \
+		<( cat kubevirt-operator.yaml | yq 'select(.kind == "ClusterRole")' )
+	@echo 'Verify Role resources'
+	@diff -uw \
+		<( helm template charts/kubevirt -n kubevirt --no-hooks | yq 'select(.kind == "Role")' | grep -v -E "^#" | grep -v -E "(kubernetes.io|helm.sh)" ) \
+		<( cat kubevirt-operator.yaml | yq 'select(.kind == "Role")' )
+
 .PHONY: \
 	helm-docs \
 	verify-helm-docs \
 	download-kubevirt-manifest \
 	update-helm-crds \
 	verify-helm-crds \
+	verify-helm-roles \
 	$(NULL)
