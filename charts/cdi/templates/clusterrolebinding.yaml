@@ -1,0 +1,15 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  labels:
+    {{- include "cdi.labels" . | nindent 4 }}
+    operator.cdi.kubevirt.io: ""
+  name: {{ include "cdi.operator.name" . }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ printf "%s-cluster" (include "cdi.operator.name" .) }}
+subjects:
+- kind: ServiceAccount
+  name: {{ include "cdi.operator.name" . }}
+  namespace: {{ .Release.Namespace }}

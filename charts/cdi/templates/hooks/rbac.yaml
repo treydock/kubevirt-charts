@@ -1,0 +1,51 @@
+{{- if and .Values.hooks.enable }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  annotations:
+    "helm.sh/hook": pre-install,pre-upgrade,post-install,post-upgrade,pre-delete
+    "helm.sh/hook-weight": "1"
+    "helm.sh/hook-delete-policy": hook-succeeded
+  labels:
+    {{- include "cdi.labels" . | nindent 4 }}
+  name: {{ include "cdi.hook.rbac.namespace" . }}
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - namespaces
+    resourceNames:
+      - {{ .Release.Namespace }}
+    verbs:
+      - get
+      - patch
+  - apiGroups:
+      - cdi.kubevirt.io
+    resources:
+      - cdis
+    verbs:
+      - get
+      - list
+      - watch
+      - delete
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  annotations:
+    "helm.sh/hook": pre-install,pre-upgrade,post-install,post-upgrade,pre-delete
+    "helm.sh/hook-weight": "1"
+    "helm.sh/hook-delete-policy": hook-succeeded
+  labels:
+    {{- include "cdi.labels" . | nindent 4 }}
+  name: {{ include "cdi.hook.rbac.namespace" . }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ include "cdi.hook.rbac.namespace" . }}
+subjects:
+- kind: ServiceAccount
+  name: {{ include "cdi.hook.serviceaccount" . }}
+  namespace: {{ .Release.Namespace }}
+{{- end }}

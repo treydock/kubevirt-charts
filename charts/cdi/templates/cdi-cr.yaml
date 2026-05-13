@@ -1,0 +1,19 @@
+apiVersion: cdi.kubevirt.io/v1beta1
+kind: CDI
+metadata:
+  name: {{ .Values.cdi.name }}
+spec:
+  config:
+    featureGates:
+    {{- toYaml .Values.cdi.config.featureGates | nindent 4 }}
+    {{- if .Values.cdi.config.uploadProxyURLOverride }}
+    uploadProxyURLOverride: {{ tpl .Values.cdi.config.uploadProxyURLOverride . }}
+    {{- end }}
+  {{- with .Values.cdi.customizeComponents }}
+  customizeComponents: {{- toYaml . | nindent 4 }}
+  {{- end }}
+  imagePullPolicy: {{ .Values.cdi.imagePullPolicy }}
+  infra:
+    {{- toYaml .Values.cdi.infra | nindent 4 }}
+  workload:
+    {{- toYaml .Values.cdi.workload | nindent 4 }}

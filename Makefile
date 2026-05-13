@@ -4,6 +4,7 @@ SHELL = /usr/bin/env bash -o pipefail
 .SHELLFLAGS = -ec
 
 KUBEVIRT_VERSION := v1.8.2
+CDI_VERSION := v1.65.0
 
 helm-docs:
 	@docker run --rm -v ${PWD}/charts:/helm-docs -w /helm-docs jnorwood/helm-docs:v1.14.2 -s file
@@ -18,10 +19,18 @@ verify-helm-docs: helm-docs
 download-kubevirt-manifest:
 	@curl -s -L -O https://github.com/kubevirt/kubevirt/releases/download/$(KUBEVIRT_VERSION)/kubevirt-operator.yaml
 
-update-helm-crds: download-kubevirt-manifest
+download-cdi-manifest:
+	@curl -s -L -O https://github.com/kubevirt/containerized-data-importer/releases/download/$(CDI_VERSION)/cdi-operator.yaml
+
+update-kubevirt-crds: download-kubevirt-manifest
 	@cat kubevirt-operator.yaml | yq 'select(.kind == "CustomResourceDefinition")' \
 		| yamlfmt -in -formatter indentless_arrays=true,max_line_length=80 > \
 		charts/kubevirt-crd/templates/crd.yaml
+
+update-cdi-crds: download-cdi-manifest
+	@cat cdi-operator.yaml | yq 'select(.kind == "CustomResourceDefinition")' \
+		| yamlfmt -in -formatter indentless_arrays=true,max_line_length=80 > \
+		charts/cdi-crd/templates/crd.yaml
 
 verify-helm-crds: download-kubevirt-manifest
 	@diff -uw \
@@ -42,7 +51,8 @@ verify-helm-roles: download-kubevirt-manifest
 	helm-docs \
 	verify-helm-docs \
 	download-kubevirt-manifest \
-	update-helm-crds \
+	update-kubevirt-crds \
+	update-cdi-crds \
 	verify-helm-crds \
 	verify-helm-roles \
 	$(NULL)

@@ -3,15 +3,15 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   annotations:
-    "helm.sh/hook": pre-delete
+    "helm.sh/hook": post-install,post-upgrade
     "helm.sh/hook-weight": "3"
     "helm.sh/hook-delete-policy": hook-succeeded
   labels:
-    {{- include "kubevirt.labels" . | nindent 4 }}
+    {{- include "cdi.labels" . | nindent 4 }}
     {{- with .Values.hooks.jobLabels }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
-  name: {{ printf "%s-delete" (include "kubevirt.fullname" .) }}
+  name: {{ printf "%s-wait" (include "cdi.fullname" .) }}
   namespace: {{ .Release.Namespace }}
 spec:
   template:
@@ -24,29 +24,29 @@ spec:
       {{- with .Values.hooks.podLabels }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
-        {{- include "kubevirt.selectorLabels" . | nindent 8 }}
-      name: {{ printf "%s-delete" (include "kubevirt.fullname" .) }}
+        {{- include "cdi.selectorLabels" . | nindent 8 }}
+      name: {{ printf "%s-wait" (include "cdi.fullname" .) }}
     spec:
       {{- with .Values.hooks.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       restartPolicy: Never
-      serviceAccountName: {{ include "kubevirt.hook.serviceaccount" . }}
+      serviceAccountName: {{ include "cdi.hook.serviceaccount" . }}
       {{- with .Values.hooks.podSecurityContext }}
       securityContext:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
-      - name: delete-cr
-        image: "{{ .Values.hooks.image.registry }}/{{ .Values.hooks.image.repository }}:{{ .Values.hooks.image.tag }}"
+      - name: wait-for-cdi
+        image: "{{ default .Values.hooks.image.registry .Values.global.imageRegistry }}/{{ .Values.hooks.image.repository }}:{{ .Values.hooks.image.tag }}"
         imagePullPolicy: {{ .Values.hooks.image.pullPolicy }}
         command:
         - /bin/bash
         - -c
         - |
           set -ex
-          kubectl -n {{ .Release.Namespace }} delete kubevirt {{ .Values.kubevirt.name }}
+          kubectl -n {{ .Release.Namespace }} wait cdi {{ .Values.cdi.name }} --for condition=Available --timeout {{ .Values.hooks.timeout }}
         {{- with .Values.hooks.securityContext }}
         securityContext:
           {{- toYaml . | nindent 10 }}

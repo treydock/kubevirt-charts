@@ -1,0 +1,38 @@
+operator:
+  podSecurityContext:
+    runAsUser: 65534
+    runAsGroup: 65534
+    fsGroup: 65534
+  resources:
+    limits:
+      cpu: 2
+      memory: 1Gi
+cdi:
+  config:
+    uploadProxyURLOverride: 'https://{{ .Values.uploadproxy.ingress.host }}'
+  customizeComponents:
+    patches:
+      - patch: '{"metadata":{"annotations":{"prometheus.io/probe_skip":"true"}}}'
+        type: strategic
+        resourceName: cdi-prometheus-metrics
+        resourceType: Service
+  infra:
+    nodeSelector:
+      node-role.kubernetes.io/infrastructure: ''
+  workload:
+    nodeSelector:
+      node-role.kubernetes.io/virt: ''
+uploadproxy:
+  ingress:
+    enable: true
+    className: nginx
+    host: foo.example.com
+    tls:
+      - hosts:
+          - '{{ .Values.uploadproxy.ingress.host }}'
+        secretName: uploadproxy-cert
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    labels:
+      foo: bar

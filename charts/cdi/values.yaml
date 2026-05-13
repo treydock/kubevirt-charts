@@ -1,0 +1,230 @@
+global:
+  # -- The image registry to use for all images
+  # @section -- Global
+  imageRegistry: ""
+
+operator:
+  # -- Operator replicas
+  # @section -- Operator
+  replicas: 1
+  image:
+    # -- Operator image registry
+    # @section -- Operator
+    registry: quay.io
+    # -- Operator image repository
+    # @section -- Operator
+    repository: kubevirt/cdi-operator
+    # -- Operator image tag
+    # @section -- Operator
+    # @default -- Chart's appVersion
+    tag: ""
+    # -- Operator image pull policy
+    # @section -- Operator
+    pullPolicy: IfNotPresent
+  # -- image pull secret configs for existing image pull secrets
+  # @section -- Operator
+  imagePullSecrets: []
+  # -- Operator container resources
+  # @section -- Operator
+  resources:
+    requests:
+      cpu: 100m
+      memory: 150Mi
+  # -- Operator container security context
+  # @section -- Operator
+  securityContext:
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+      - ALL
+    runAsNonRoot: true
+    seccompProfile:
+      type: RuntimeDefault
+  # -- Verbosity level for CDI operator
+  # @section -- Operator
+  verbosity: 1
+  # -- The Operator node selector
+  # @section -- Operator
+  nodeSelector:
+    kubernetes.io/os: linux
+  # -- Operator pod security context
+  # @section -- Operator
+  podSecurityContext:
+    runAsNonRoot: true
+
+images:
+  controller:
+    # -- Controller image registry
+    # @section -- Images
+    registry: quay.io
+    # -- Controller image repository
+    # @section -- Images
+    repository: kubevirt/cdi-controller
+    # -- Controller image tag
+    # @section -- Images
+    # @default -- Chart's app version
+    tag: ""
+  importer:
+    # -- Importer image registry
+    # @section -- Images
+    registry: quay.io
+    # -- Importer image repository
+    # @section -- Images
+    repository: kubevirt/cdi-importer
+    # -- Importer image tag
+    # @section -- Images
+    # @default -- Chart's app version
+    tag: ""
+  cloner:
+    # -- Cloner image registry
+    # @section -- Images
+    registry: quay.io
+    # -- Cloner image repository
+    # @section -- Images
+    repository: kubevirt/cdi-cloner
+    # -- Cloner image tag
+    # @section -- Images
+    # @default -- Chart's app version
+    tag: ""
+  apiserver:
+    # -- API Server image registry
+    # @section -- Images
+    registry: quay.io
+    # -- API Server image repository
+    # @section -- Images
+    repository: kubevirt/cdi-apiserver
+    # -- API Server image tag
+    # @section -- Images
+    # @default -- Chart's app version
+    tag: ""
+  uploadServer:
+    # -- Upload server image registry
+    # @section -- Images
+    registry: quay.io
+    # -- Upload server image repository
+    # @section -- Images
+    repository: kubevirt/cdi-uploadserver
+    # -- Upload server image tag
+    # @section -- Images
+    # @default -- Chart's app version
+    tag: ""
+  uploadProxy:
+    # -- Upload proxy image registry
+    # @section -- Images
+    registry: quay.io
+    # -- Upload proxy image repository
+    # @section -- Images
+    repository: kubevirt/cdi-uploadproxy
+    # -- Upload proxy image tag
+    # @section -- Images
+    # @default -- Chart's app version
+    tag: ""
+
+cdi:
+  # -- Name of the CDI resource
+  # @section -- CDI
+  name: cdi
+  config:
+    # -- CDI config feature gates
+    # @section -- CDI
+    featureGates:
+      - HonorWaitForFirstConsumer
+      - WebhookPvcRendering
+    # -- Upload Proxy URL override
+    # @section -- CDI
+    uploadProxyURLOverride: ""
+  # -- Customize components
+  # @section -- CDI
+  customizeComponents: {}
+  # -- Image pull policy for CDI managed images
+  # @section -- CDI
+  imagePullPolicy: IfNotPresent
+  infra:
+    # -- CDI Infrastructure node selector
+    # @section -- CDI
+    nodeSelector:
+      kubernetes.io/os: linux
+  workload:
+    # -- CDI Workload node selector
+    # @section -- CDI
+    nodeSelector:
+      kubernetes.io/os: linux
+uploadproxy:
+  ingress:
+    # -- Enable the upload proxy ingress
+    # @section -- Upload Proxy
+    enable: false
+    # -- Ingress class name
+    # @section -- Upload Proxy
+    className: ""
+    # -- Ingress host
+    # @section -- Upload Proxy
+    host: ""
+    # -- Ingress TLS configuration
+    # @section -- Upload Proxy
+    tls: []
+    # Example
+    # - hosts:
+    #     - uploadproxy.example.com
+    #   secretName: uploadproxy-cert
+
+    # -- Upload proxy ingress annotations
+    # @section -- Upload Proxy
+    annotations: {}
+    # -- Upload proxy ingress labels
+    # @section -- Upload Proxy
+    labels: {}
+hooks:
+  # -- Enable post-install hooks
+  # @section -- Hooks
+  enable: true
+  image:
+    # -- hook image registry
+    # @section -- Hooks
+    registry: docker.io
+    # -- hook image repository
+    # @section -- Hooks
+    repository: portainer/kubectl-shell
+    # -- hook image tag
+    # @section -- Hooks
+    tag: '2.39.0'
+    # -- hook image pull policy
+    # @section -- Hooks
+    pullPolicy: IfNotPresent
+  # -- Time to wait for kubevirt CR to be ready
+  # @section -- Hooks
+  timeout: 5m
+  # -- imagePullSecrets to use for existing secrets
+  # @section -- Hooks
+  imagePullSecrets: []
+  # -- Job labels to add to the hook job
+  # @section -- Hooks
+  jobLabels: {}
+  # -- Pod labels to add to the hook pod
+  # @section -- Hooks
+  podLabels: {}
+  # -- Pod annotations to add to the hook pod
+  # @section -- Hooks
+  podAnnotations: {}
+  # -- Pod-level security settings
+  # @section -- Hooks
+  # @default -- unprivileged
+  podSecurityContext:
+    runAsNonRoot: true
+    seccompProfile:
+      type: RuntimeDefault
+  # -- Security context for the hook pod
+  # @section -- Hooks
+  # @default -- unprivileged
+  securityContext:
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+      - ALL
+    seccompProfile:
+      type: RuntimeDefault
+    privileged: false
+    readOnlyRootFilesystem: true
+    runAsNonRoot: true
+    runAsUser: 65534
+    runAsGroup: 65534
