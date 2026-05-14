@@ -40,7 +40,9 @@ helm upgrade kubevirt kubevirt/kubevirt --install -n kubevirt
 | kubevirt.annotations | object | `{}` | Annotations to be added to the KubeVirt CR |
 | kubevirt.certificateRotateStrategy | object | `{}` | Certificate rotate strategy configuration |
 | kubevirt.configuration.developerConfiguration.featureGates | list | `[]` | Developer configuration feature gates |
+| kubevirt.configuration.developerConfiguration.disabledFeatureGates | list | `[]` | Disabled feature gates |
 | kubevirt.configuration.imagePullPolicy | string | `"IfNotPresent"` | Configuration image pull policy |
+| kubevirt.configuration.vmStateStorageClass | string | `""` | VM state storage class |
 | kubevirt.customizeComponents | object | `{}` | Customize components |
 | kubevirt.imagePullPolicy | string | `"IfNotPresent"` | Image pull policy |
 | kubevirt.infra | object | `{}` | Customize infra |

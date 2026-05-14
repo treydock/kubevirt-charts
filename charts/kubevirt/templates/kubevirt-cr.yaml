@@ -19,6 +19,9 @@ spec:
     {{- end }}
     developerConfiguration:
       featureGates: {{- toYaml .Values.kubevirt.configuration.developerConfiguration.featureGates | nindent 8 }}
+      {{- with .Values.kubevirt.configuration.developerConfiguration.disabledFeatureGates }}
+      disabledFeatureGates: {{ toYaml . | nindent 8 }}
+      {{- end }}
     imagePullPolicy: {{ .Values.kubevirt.configuration.imagePullPolicy }}
   customizeComponents: {{- toYaml .Values.kubevirt.customizeComponents | nindent 4 }}
   imagePullPolicy: {{ .Values.kubevirt.imagePullPolicy }}

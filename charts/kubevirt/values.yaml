@@ -56,6 +56,8 @@ kubevirt:
     developerConfiguration:
       # -- Developer configuration feature gates
       featureGates: []
+      # -- Disabled feature gates
+      disabledFeatureGates: []
     # -- Configuration image pull policy
     imagePullPolicy: IfNotPresent
     # -- VM state storage class
