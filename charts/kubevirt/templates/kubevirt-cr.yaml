@@ -14,6 +14,9 @@ metadata:
 spec:
   certificateRotateStrategy: {{- toYaml .Values.kubevirt.certificateRotateStrategy | nindent 4 }}
   configuration:
+    {{- if .Values.kubevirt.configuration.vmStateStorageClass }}
+    vmStateStorageClass: {{ .Values.kubevirt.configuration.vmStateStorageClass }}
+    {{- end }}
     developerConfiguration:
       featureGates: {{- toYaml .Values.kubevirt.configuration.developerConfiguration.featureGates | nindent 8 }}
     imagePullPolicy: {{ .Values.kubevirt.configuration.imagePullPolicy }}

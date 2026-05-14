@@ -58,6 +58,8 @@ kubevirt:
       featureGates: []
     # -- Configuration image pull policy
     imagePullPolicy: IfNotPresent
+    # -- VM state storage class
+    vmStateStorageClass: ""
 
   # -- Customize components
   customizeComponents: {}
