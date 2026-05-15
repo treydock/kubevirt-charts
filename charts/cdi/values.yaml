@@ -124,6 +124,9 @@ cdi:
   # -- Name of the CDI resource
   # @section -- CDI
   name: cdi
+  # -- Clone strategy override
+  # @section -- CDI
+  cloneStrategyOverride: ""
   config:
     # -- CDI config feature gates
     # @section -- CDI

@@ -3,6 +3,9 @@ kind: CDI
 metadata:
   name: {{ .Values.cdi.name }}
 spec:
+  {{- if .Values.cdi.cloneStrategyOverride }}
+  cloneStrategyOverride: {{ .Values.cdi.cloneStrategyOverride }}
+  {{- end }}
   config:
     featureGates:
     {{- toYaml .Values.cdi.config.featureGates | nindent 4 }}

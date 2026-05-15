@@ -73,6 +73,7 @@ helm upgrade cdi kubevirt/cdi --install -n cdi
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | cdi.name | string | `"cdi"` | Name of the CDI resource |
+| cdi.cloneStrategyOverride | string | `""` | Clone strategy override |
 | cdi.config.featureGates | list | `["HonorWaitForFirstConsumer","WebhookPvcRendering"]` | CDI config feature gates |
 | cdi.config.uploadProxyURLOverride | string | `""` | Upload Proxy URL override |
 | cdi.customizeComponents | object | `{}` | Customize components |
