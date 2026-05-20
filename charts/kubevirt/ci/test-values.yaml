@@ -8,6 +8,11 @@ operator:
       cpu: 2
       memory: 1Gi
 kubevirt:
+  configuration:
+    permittedHostDevices:
+      pciHostDevices:
+        - pciVendorSelector: '10de:20f1'
+          resourceName: 'nvidia.com/A100_40G'
   customizeComponents:
     patches:
       - patch: '{"metadata":{"annotations":{"prometheus.io/probe_skip":"true"}}}'

@@ -60,6 +60,11 @@ kubevirt:
       disabledFeatureGates: []
     # -- Configuration image pull policy
     imagePullPolicy: IfNotPresent
+    permittedHostDevices:
+      # -- Supported host mediated devices
+      mediatedDevices: []
+      # -- Supported PCI host devices
+      pciHostDevices: []
     # -- VM state storage class
     vmStateStorageClass: ""
 
