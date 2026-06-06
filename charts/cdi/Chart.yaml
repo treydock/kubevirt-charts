@@ -4,3 +4,8 @@ description: A Helm chart for the CDI
 type: application
 version: v1.65.0
 appVersion: "v1.65.0"
+dependencies:
+  - name: cdi-crd
+    version: v1.65.0
+    repository: "file://../cdi-crd"
+    condition: crd.install

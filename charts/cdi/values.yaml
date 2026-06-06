@@ -231,3 +231,8 @@ hooks:
     runAsNonRoot: true
     runAsUser: 65534
     runAsGroup: 65534
+
+crd:
+  # -- Install the cdi-crd chart dependency. Only intended for systems like ArgoCD.
+  # @section -- Dependencies
+  install: false

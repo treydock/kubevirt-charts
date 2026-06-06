@@ -4,3 +4,8 @@ description: A Helm chart for the KubeVirt
 type: application
 version: v1.8.2
 appVersion: "v1.8.2"
+dependencies:
+  - name: kubevirt-crd
+    version: v1.8.2
+    repository: "file://../kubevirt-crd"
+    condition: crd.install

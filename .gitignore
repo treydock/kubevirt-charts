@@ -1,2 +1,4 @@
 kubevirt-operator.yaml
 cdi-operator.yaml
+Chart.lock
+/charts/*/charts

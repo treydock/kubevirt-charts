@@ -21,7 +21,21 @@ Now you can install the chart:
 helm upgrade kubevirt kubevirt/kubevirt --install -n kubevirt
 ```
 
+## Requirements
+
+| Repository | Name | Version |
+|------------|------|---------|
+| file://../kubevirt-crd | kubevirt-crd | v1.8.2 |
+
 ## Values
+
+### Dependencies
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| crd.install | bool | `false` | Install the kubevirt-crd chart dependency. Only intended for systems like ArgoCD. |
+
+### Other Values
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
@@ -42,6 +56,8 @@ helm upgrade kubevirt kubevirt/kubevirt --install -n kubevirt
 | kubevirt.configuration.developerConfiguration.featureGates | list | `[]` | Developer configuration feature gates |
 | kubevirt.configuration.developerConfiguration.disabledFeatureGates | list | `[]` | Disabled feature gates |
 | kubevirt.configuration.imagePullPolicy | string | `"IfNotPresent"` | Configuration image pull policy |
+| kubevirt.configuration.permittedHostDevices.mediatedDevices | list | `[]` | Supported host mediated devices |
+| kubevirt.configuration.permittedHostDevices.pciHostDevices | list | `[]` | Supported PCI host devices |
 | kubevirt.configuration.vmStateStorageClass | string | `""` | VM state storage class |
 | kubevirt.customizeComponents | object | `{}` | Customize components |
 | kubevirt.imagePullPolicy | string | `"IfNotPresent"` | Image pull policy |
