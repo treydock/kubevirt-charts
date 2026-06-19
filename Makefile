@@ -3,8 +3,36 @@
 SHELL = /usr/bin/env bash -o pipefail
 .SHELLFLAGS = -ec
 
+## Location to install dependencies to
+LOCALBIN ?= $(shell pwd)/bin
+$(LOCALBIN):
+	mkdir -p "$(LOCALBIN)"
+
 KUBEVIRT_VERSION := v1.8.2
 CDI_VERSION := v1.65.0
+
+YAMLFMT = $(LOCALBIN)/yamlfmt
+YAMLFMT_VERSION ?= v0.21.0
+
+yamlfmt: $(YAMLFMT)
+$(YAMLFMT): $(LOCALBIN)
+	$(call go-install-tool,$(YAMLFMT),github.com/google/yamlfmt/cmd/yamlfmt,$(YAMLFMT_VERSION))
+
+# go-install-tool will 'go install' any package with custom target and name of binary, if it doesn't exist
+# $1 - target path with name of binary
+# $2 - package url which can be installed
+# $3 - specific version of package
+define go-install-tool
+@[ -f "$(1)-$(3)" ] && [ "$$(readlink -- "$(1)" 2>/dev/null)" = "$(1)-$(3)" ] || { \
+set -e; \
+package=$(2)@$(3) ;\
+echo "Downloading $${package}" ;\
+rm -f "$(1)" ;\
+GOBIN="$(LOCALBIN)" go install $${package} ;\
+mv "$(LOCALBIN)/$$(basename "$(1)")" "$(1)-$(3)" ;\
+} ;\
+ln -sf "$$(realpath "$(1)-$(3)")" "$(1)"
+endef
 
 helm-docs:
 	@docker run --rm -v ${PWD}/charts:/helm-docs -w /helm-docs jnorwood/helm-docs:v1.14.2 -s file
@@ -22,14 +50,14 @@ download-kubevirt-manifest:
 download-cdi-manifest:
 	@curl -s -L -O https://github.com/kubevirt/containerized-data-importer/releases/download/$(CDI_VERSION)/cdi-operator.yaml
 
-update-kubevirt-crds: download-kubevirt-manifest
+update-kubevirt-crds: download-kubevirt-manifest yamlfmt
 	@cat kubevirt-operator.yaml | yq 'select(.kind == "CustomResourceDefinition")' \
-		| yamlfmt -in -formatter indentless_arrays=true,max_line_length=80 > \
+		| $(YAMLFMT) -in -formatter indentless_arrays=true,max_line_length=80 > \
 		charts/kubevirt-crd/templates/crd.yaml
 
-update-cdi-crds: download-cdi-manifest
+update-cdi-crds: download-cdi-manifest yamlfmt
 	@cat cdi-operator.yaml | yq 'select(.kind == "CustomResourceDefinition")' \
-		| yamlfmt -in -formatter indentless_arrays=true,max_line_length=80 > \
+		| $(YAMLFMT) -in -formatter indentless_arrays=true,max_line_length=80 > \
 		charts/cdi-crd/templates/crd.yaml
 
 verify-helm-crds: download-kubevirt-manifest
@@ -48,6 +76,7 @@ verify-helm-roles: download-kubevirt-manifest
 		<( cat kubevirt-operator.yaml | yq 'select(.kind == "Role")' )
 
 .PHONY: \
+	yamlfmt \
 	helm-docs \
 	verify-helm-docs \
 	download-kubevirt-manifest \
