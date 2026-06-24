@@ -1,4 +1,3 @@
-
 operator:
   # -- Operator replicas
   replicas: 2

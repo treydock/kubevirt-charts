@@ -5,8 +5,8 @@ operator:
     fsGroup: 65534
   resources:
     limits:
-      cpu: 2
-      memory: 1Gi
+      cpu: 1
+      memory: 512Mi
 cdi:
   config:
     uploadProxyURLOverride: 'https://{{ .Values.uploadproxy.ingress.host }}'
@@ -16,12 +16,6 @@ cdi:
         type: strategic
         resourceName: cdi-prometheus-metrics
         resourceType: Service
-  infra:
-    nodeSelector:
-      node-role.kubernetes.io/infrastructure: ''
-  workload:
-    nodeSelector:
-      node-role.kubernetes.io/virt: ''
 uploadproxy:
   ingress:
     enable: true

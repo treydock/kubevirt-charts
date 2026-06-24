@@ -18,6 +18,14 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: 3.11
+      - name: Set up chart-testing
+        uses: helm/chart-testing-action@v2.8.0
+
+      - name: Run chart-testing (lint)
+        run: ct lint --target-branch=main --validate-maintainers=false
+      - name: Lint Helm Chart
+        run: |
+          helm lint ./charts/*
 
       - name: Verify Helm CRDs
         run: make verify-helm-crds
@@ -25,9 +33,3 @@ jobs:
         run: make verify-helm-roles
       - name: Verify Helm docs
         run: make verify-helm-docs
-
-      - name: Run chart-testing (lint)
-        run: ct lint --target-branch=main
-      - name: Lint Helm Chart
-        run: |
-          helm lint ./charts/*

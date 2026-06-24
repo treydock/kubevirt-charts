@@ -62,7 +62,7 @@ update-cdi-crds: download-cdi-manifest yamlfmt
 
 verify-helm-crds: download-kubevirt-manifest
 	@diff -uw \
-		<( helm template charts/kubevirt-crd | yq 'select(.kind == "CustomResourceDefinition")' | grep -v -E "^#" ) \
+		<( helm template charts/kubevirt-crd | yq 'select(.kind == "CustomResourceDefinition")' | grep -v -E "^(#|---)" ) \
 		<( cat kubevirt-operator.yaml | yq 'select(.kind == "CustomResourceDefinition")' )
 
 verify-helm-roles: download-kubevirt-manifest

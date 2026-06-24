@@ -33,6 +33,17 @@ jobs:
           helm install cdi-crd charts/cdi-crd -n cdi --create-namespace --wait --timeout 300s
 
       - name: Run chart-testing kubevirt (install)
-        run: ct install --target-branch=main --charts charts/kubevirt --namespace kubevirt
+        run: ct install --target-branch=main --charts charts/kubevirt --namespace kubevirt --skip-clean-up
       - name: Run chart-testing cdi (install)
-        run: ct install --target-branch=main --charts charts/cdi --namespace cdi
+        run: ct install --target-branch=main --charts charts/cdi --namespace cdi --skip-clean-up
+
+      - name: Debug failure
+        if: failure()
+        run: |
+          kubectl describe kubevirt -n kubevirt
+          kubectl describe cdi -n cdi
+      - name: Get logs
+        if: failure()
+        run: |
+          kubectl logs -n kubevirt -l name=virt-operator --tail=200
+          kubectl logs -n cdi -l name=cdi-operator --tail=200
