@@ -1,0 +1,57 @@
+apiVersion: v1
+entries:
+  cdi:
+  - apiVersion: v2
+    appVersion: v1.65.0
+    created: "2026-06-26T16:48:56.371707721Z"
+    dependencies:
+    - condition: crd.install
+      name: cdi-crd
+      repository: file://../cdi-crd
+      version: v1.65.0
+    description: A Helm chart for the CDI
+    digest: 90c7207a0ad18ecfabf89856303dcfe60426328e2583bfd1f48bd651e0879b68
+    name: cdi
+    type: application
+    urls:
+    - https://github.com/treydock/kubevirt-charts/releases/download/cdi-v1.65.0/cdi-v1.65.0.tgz
+    version: v1.65.0
+  cdi-crd:
+  - apiVersion: v2
+    appVersion: v1.65.0
+    created: "2026-06-26T16:48:56.178487138Z"
+    description: A Helm chart for CDI CRD
+    digest: b7612f36b95bc8178fa426c0a066e30c02f790d043025d494cd2e7bd16bbc136
+    name: cdi-crd
+    type: application
+    urls:
+    - https://github.com/treydock/kubevirt-charts/releases/download/cdi-crd-v1.65.0/cdi-crd-v1.65.0.tgz
+    version: v1.65.0
+  kubevirt:
+  - apiVersion: v2
+    appVersion: v1.8.2
+    created: "2026-06-26T16:48:56.744480179Z"
+    dependencies:
+    - condition: crd.install
+      name: kubevirt-crd
+      repository: file://../kubevirt-crd
+      version: v1.8.2
+    description: A Helm chart for the KubeVirt
+    digest: e2e7cd103e75cd8df09e276c1f97573130f37e242e540b9e1108fa8f54765660
+    name: kubevirt
+    type: application
+    urls:
+    - https://github.com/treydock/kubevirt-charts/releases/download/kubevirt-v1.8.2/kubevirt-v1.8.2.tgz
+    version: v1.8.2
+  kubevirt-crd:
+  - apiVersion: v2
+    appVersion: v1.8.2
+    created: "2026-06-26T16:48:56.568049263Z"
+    description: A Helm chart for the KubeVirt CRD
+    digest: 094492370c28e15c7c28cad43f97bf71e69c493f2363e372f315b75d9829102c
+    name: kubevirt-crd
+    type: application
+    urls:
+    - https://github.com/treydock/kubevirt-charts/releases/download/kubevirt-crd-v1.8.2/kubevirt-crd-v1.8.2.tgz
+    version: v1.8.2
+generated: "2026-06-26T16:48:56.751170096Z"
