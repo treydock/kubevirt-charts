@@ -2,10 +2,10 @@ apiVersion: v2
 name: cdi
 description: A Helm chart for CDI
 type: application
-version: v1.65.0
-appVersion: "v1.65.0"
+version: v1.66.1
+appVersion: "v1.66.1"
 dependencies:
   - name: cdi-crd
-    version: v1.65.0
+    version: v1.66.1
     repository: "file://../cdi-crd"
     condition: crd.install

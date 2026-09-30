@@ -8,8 +8,8 @@ LOCALBIN ?= $(shell pwd)/bin
 $(LOCALBIN):
 	mkdir -p "$(LOCALBIN)"
 
-KUBEVIRT_VERSION := v1.8.2
-CDI_VERSION := v1.65.0
+KUBEVIRT_VERSION := v1.8.4
+CDI_VERSION := v1.66.1
 
 YAMLFMT = $(LOCALBIN)/yamlfmt
 YAMLFMT_VERSION ?= v0.21.0
@@ -66,6 +66,7 @@ verify-helm-crds: download-kubevirt-manifest
 		<( cat kubevirt-operator.yaml | yq 'select(.kind == "CustomResourceDefinition")' )
 
 verify-helm-roles: download-kubevirt-manifest
+	@helm dependency update charts/kubevirt
 	@echo 'Verify ClusterRole resources'
 	@diff -uw \
 		<( helm template charts/kubevirt --no-hooks | yq 'select(.kind == "ClusterRole")' | grep -v -E "^#" | grep -v -E "(kubernetes.io|helm.sh)" ) \

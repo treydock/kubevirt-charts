@@ -1,6 +1,6 @@
 # cdi
 
-![Version: v1.65.0](https://img.shields.io/badge/Version-v1.65.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v1.65.0](https://img.shields.io/badge/AppVersion-v1.65.0-informational?style=flat-square)
+![Version: v1.66.1](https://img.shields.io/badge/Version-v1.66.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v1.66.1](https://img.shields.io/badge/AppVersion-v1.66.1-informational?style=flat-square)
 
 A Helm chart for CDI
 
@@ -25,7 +25,7 @@ helm upgrade cdi kubevirt/cdi --install -n cdi
 
 | Repository | Name | Version |
 |------------|------|---------|
-| file://../cdi-crd | cdi-crd | v1.65.0 |
+| file://../cdi-crd | cdi-crd | v1.66.1 |
 
 ## Values
 
