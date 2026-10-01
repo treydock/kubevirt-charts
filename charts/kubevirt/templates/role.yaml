@@ -2,8 +2,8 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   labels:
-    kubevirt.io: ""
     {{- include "kubevirt.labels" . | nindent 4 }}
+    kubevirt.io: ""
   name: {{ include "kubevirt.operator.name" . }}
   namespace: {{ .Release.Namespace }}
 rules:
@@ -17,6 +17,7 @@ rules:
   - kubevirt-virt-handler-server-certs
   - kubevirt-virt-handler-migration-client-certs
   - kubevirt-virt-handler-vsock-client-certs
+  - kubevirt-virt-handler-monitoring-client-certs
   - kubevirt-operator-certs
   - kubevirt-virt-api-certs
   - kubevirt-controller-certs

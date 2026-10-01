@@ -3,9 +3,9 @@ kind: ClusterRole
 metadata:
   name: kubevirt.io:operator
   labels:
+    {{- include "kubevirt.labels" . | nindent 4 }}
     operator.kubevirt.io: ""
     rbac.authorization.k8s.io/aggregate-to-admin: "true"
-    {{- include "kubevirt.labels" . | nindent 4 }}
 rules:
   - apiGroups:
       - kubevirt.io
@@ -25,8 +25,8 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   labels:
-    kubevirt.io: ""
     {{- include "kubevirt.labels" . | nindent 4 }}
+    kubevirt.io: ""
   name: {{ include "kubevirt.operator.name" . }}
 rules:
 - apiGroups:
@@ -564,6 +564,14 @@ rules:
   - delete
   - patch
 - apiGroups:
+  - template.kubevirt.io
+  resources:
+  - virtualmachinetemplates
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
   - pool.kubevirt.io
   resources:
   - virtualmachinepools
@@ -728,7 +736,6 @@ rules:
   - virtualmachineinstances
   verbs:
   - update
-  - patch
   - list
   - watch
 - apiGroups:
@@ -789,11 +796,13 @@ rules:
   - watch
   - patch
 - apiGroups:
-  - apps
+  - plugin.kubevirt.io
   resources:
-  - controllerrevisions
+  - plugins
   verbs:
   - get
+  - list
+  - watch
 - apiGroups:
   - export.kubevirt.io
   resources:
@@ -980,6 +989,19 @@ rules:
   - watch
   - deletecollection
 - apiGroups:
+  - plugin.kubevirt.io
+  resources:
+  - plugins
+  verbs:
+  - get
+  - delete
+  - create
+  - update
+  - patch
+  - list
+  - watch
+  - deletecollection
+- apiGroups:
   - export.kubevirt.io
   resources:
   - virtualmachineexports
@@ -1311,6 +1333,14 @@ rules:
   - migrations.kubevirt.io
   resources:
   - migrationpolicies
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - plugin.kubevirt.io
+  resources:
+  - plugins
   verbs:
   - get
   - list

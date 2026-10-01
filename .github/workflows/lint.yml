@@ -28,8 +28,12 @@ jobs:
           helm lint ./charts/*
 
       - name: Verify Helm CRDs
-        run: make verify-helm-crds
+        run: |
+          make verify-helm-cdi-crds
+          make verify-helm-kubevirt-crds
       - name: Verify Helm RBAC
-        run: make verify-helm-roles
+        run: |
+          make verify-helm-cdi-roles
+          make verify-helm-kubevirt-roles
       - name: Verify Helm docs
         run: make verify-helm-docs
