@@ -1,6 +1,6 @@
 # kubevirt
 
-![Version: v1.8.4](https://img.shields.io/badge/Version-v1.8.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v1.8.4](https://img.shields.io/badge/AppVersion-v1.8.4-informational?style=flat-square)
+![Version: v1.9.0](https://img.shields.io/badge/Version-v1.9.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v1.9.0](https://img.shields.io/badge/AppVersion-v1.9.0-informational?style=flat-square)
 
 A Helm chart for KubeVirt
 
@@ -25,7 +25,7 @@ helm upgrade kubevirt kubevirt/kubevirt --install -n kubevirt
 
 | Repository | Name | Version |
 |------------|------|---------|
-| file://../kubevirt-crd | kubevirt-crd | v1.8.4 |
+| file://../kubevirt-crd | kubevirt-crd | v1.9.0 |
 
 ## Values
 

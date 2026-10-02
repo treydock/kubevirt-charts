@@ -133,6 +133,9 @@ cdi:
     featureGates:
       - HonorWaitForFirstConsumer
       - WebhookPvcRendering
+    # -- CDI pod resource requirements
+    # @section -- CDI
+    podResourceRequirements: {}
     # -- Upload Proxy URL override
     # @section -- CDI
     uploadProxyURLOverride: ""

@@ -81,6 +81,7 @@ helm upgrade cdi kubevirt/cdi --install -n cdi
 | cdi.name | string | `"cdi"` | Name of the CDI resource |
 | cdi.cloneStrategyOverride | string | `""` | Clone strategy override |
 | cdi.config.featureGates | list | `["HonorWaitForFirstConsumer","WebhookPvcRendering"]` | CDI config feature gates |
+| cdi.config.podResourceRequirements | object | `{}` | CDI pod resource requirements |
 | cdi.config.uploadProxyURLOverride | string | `""` | Upload Proxy URL override |
 | cdi.customizeComponents | object | `{}` | Customize components |
 | cdi.imagePullPolicy | string | `"IfNotPresent"` | Image pull policy for CDI managed images |

@@ -9,6 +9,13 @@ operator:
       memory: 512Mi
 cdi:
   config:
+    podResourceRequirements:
+      limits:
+        cpu: 2
+        memory: 2Gi
+      requests:
+        cpu: 500m
+        memory: 128Mi
     uploadProxyURLOverride: 'https://{{ .Values.uploadproxy.ingress.host }}'
   customizeComponents:
     patches:

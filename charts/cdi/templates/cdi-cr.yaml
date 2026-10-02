@@ -9,6 +9,9 @@ spec:
   config:
     featureGates:
     {{- toYaml .Values.cdi.config.featureGates | nindent 4 }}
+    {{- with .Values.cdi.config.podResourceRequirements }}
+    podResourceRequirements: {{- toYaml . | nindent 6 }}
+    {{- end }}
     {{- if .Values.cdi.config.uploadProxyURLOverride }}
     uploadProxyURLOverride: {{ tpl .Values.cdi.config.uploadProxyURLOverride . }}
     {{- end }}
